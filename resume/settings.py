@@ -13,6 +13,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
 
+# CSRF trusted origins - add your deployed domain here
+CSRF_TRUSTED_ORIGINS = [
+    "https://your-railway-domain.railway.app",  # Replace with your real URL
+]
+
 # Installed Apps
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -85,7 +90,7 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # Apna folder bana lo
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Whitenoise settings for production
