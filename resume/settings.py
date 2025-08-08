@@ -1,3 +1,5 @@
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 from pathlib import Path
 import os
 import dj_database_url
@@ -11,12 +13,25 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Security
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
 
-# CSRF trusted origins - add your deployed domain here
-CSRF_TRUSTED_ORIGINS = [
-    "https://your-railway-domain.railway.app",  # Replace with your real URL
+ALLOWED_HOSTS = [
+    'resumechecker-production-5c5e.up.railway.app', 
+    'localhost', 
+    '127.0.0.1'
 ]
+
+# CSRF settings for production deployment
+CSRF_TRUSTED_ORIGINS = [
+    'https://resumechecker-production-5c5e.up.railway.app',
+]
+
+# Agar aap HTTPS use kar rahe hain to inko True rakhein
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Agar abhi HTTPS setup nahi, to temporarily False kar ke test kar sakte hain:
+# CSRF_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
 
 # Installed Apps
 INSTALLED_APPS = [
@@ -28,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'users',
     'django.contrib.sites',
-    'resumes', 
+    'resumes',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -39,7 +54,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",            # CSRF Middleware enabled
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -65,7 +80,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "resume.wsgi.application"
 
-# Database (Railway will inject DATABASE_URL)
+# Database
 DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
