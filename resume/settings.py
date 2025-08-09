@@ -1,5 +1,3 @@
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
 from pathlib import Path
 import os
 import dj_database_url
@@ -15,23 +13,19 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-key")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
-    'resumechecker-production-5c5e.up.railway.app', 
-    'localhost', 
+    'resumechecker-production-5c5e.up.railway.app',
+    'localhost',
     '127.0.0.1'
 ]
 
-# CSRF settings for production deployment
+# CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     'https://resumechecker-production-5c5e.up.railway.app',
 ]
 
-# Agar aap HTTPS use kar rahe hain to inko True rakhein
+# Agar HTTPS enable hai to True rakhein
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-
-# Agar abhi HTTPS setup nahi, to temporarily False kar ke test kar sakte hain:
-# CSRF_COOKIE_SECURE = False
-# SESSION_COOKIE_SECURE = False
 
 # Installed Apps
 INSTALLED_APPS = [
@@ -54,7 +48,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",            # CSRF Middleware enabled
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -80,11 +74,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "resume.wsgi.application"
 
-# Database
+# Database — Priority: PostgreSQL (Railway) → SQLite (Local)
 DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
+        ssl_require=True
     )
 }
 
@@ -108,7 +103,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Whitenoise settings for production
+# Whitenoise for production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
