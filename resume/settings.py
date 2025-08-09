@@ -99,10 +99,19 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# Only keep STATICFILES_DIRS if you have extra static folders
+STATICFILES_DIRS = []  
+
+# This is where collectstatic will put all files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# # Static files
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Whitenoise for production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
