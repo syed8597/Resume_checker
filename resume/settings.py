@@ -76,11 +76,7 @@ WSGI_APPLICATION = "resume.wsgi.application"
 
 # Database — Priority: PostgreSQL (Railway) → SQLite (Local)
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
 }
 
 # Password Validation
